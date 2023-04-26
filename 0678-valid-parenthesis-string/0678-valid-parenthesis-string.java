@@ -1,36 +1,41 @@
 class Solution {
-
     public boolean checkValidString(String s) {
-        int cmax = 0;
-        int cmin = 0;
-        // open parentheses count in range [cmin, cmax]
-
-        for (int i = 0; i < s.length(); i++) {
+        
+        Stack<Integer> open = new Stack<>();
+        Stack<Integer> star = new Stack<>();
+        
+        for(int i=0;i<s.length();i++){
             char ch = s.charAt(i);
-            if (ch == '(') {
-                cmax++;
-                cmin++;
-            } else if (ch == ')') {
-                cmax--;
-                cmin--;
-            } else if (ch == '*') {
-                cmax++; // if `*` become `(` then openCount++
-                cmin--; // if `*` become `)` then openCount--
-                // if `*` become `` then nothing happens
-                // So openCount will be in new range [cmin-1, cmax+1]
+            if(ch=='('){
+                open.push(i);
             }
-
-            if (cmax < 0) {
+            else if(ch=='*'){
+                star.push(i);
+            }
+            else if(ch==')'){
+                if(!open.isEmpty()){
+                    open.pop();
+                }
+                else if(!star.isEmpty()){
+                    star.pop();
+                }else{
+                    return false;
+                }
+            }
+        }
+        
+        while(!open.isEmpty()){
+            if(star.isEmpty()){
                 return false;
             }
-            // Currently, don't have enough open parentheses to match close parentheses-> Invalid
-            // For example: ())(
-
-            cmin = Math.max(cmin, 0);
-            // It's invalid if open parentheses count < 0 that's why cmin can't be negative
-
+            else if(open.peek()<star.peek()){
+                open.pop();
+                star.pop();
+            }else{
+                return false;
+            }
         }
-
-        return cmin == 0;
+        
+        return true;
     }
 }
