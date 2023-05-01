@@ -39,25 +39,25 @@ class Solution {
             Tuple t = q.poll();
 
             TreeNode node = t.node;
-            int row = t.row;
-            int col = t.col;
+            int x = t.row;
+            int y = t.col;
 
-            if (!map.containsKey(row)) {
-                map.put(row, new TreeMap<>());
+            if (!map.containsKey(x)) {
+                map.put(x, new TreeMap<>());
             }
 
-            if (!map.get(row).containsKey(col)) {
-                map.get(row).put(col, new PriorityQueue<Integer>());
+            if (!map.get(x).containsKey(y)) {
+                map.get(x).put(y, new PriorityQueue<Integer>());
             }
 
-            map.get(row).get(col).offer(node.val);
+            map.get(x).get(y).offer(node.val);
 
             if (node.left != null) {
-                q.add(new Tuple(node.left, row - 1, col + 1));
+                q.add(new Tuple(node.left, x - 1, y + 1));
             }
 
             if (node.right != null) {
-                q.add(new Tuple(node.right, row + 1, col + 1));
+                q.add(new Tuple(node.right, x + 1, y + 1));
             }
         }
 
