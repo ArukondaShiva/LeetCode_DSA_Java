@@ -16,30 +16,32 @@ class Solution {
     }
     
     public int solveSteps(String s1,String s2,int n1,int n2){
-    
-      int dp[][] = new int[n1+1][n2+1];
-        
-     
-        for(int i=0;i<=n1;i++){
-            dp[i][0] = i;
-        }
+       
+        int prev[] = new int[n2+1];
         
         for(int j=0;j<=n2;j++){
-            dp[0][j] = j;
+            prev[j] = j;
         }
         
+        
         for(int i=1;i<=n1;i++){
+            
+            int cur[] = new int[n2+1];
+            cur[0] = i;
+            
             for(int j=1;j<=n2;j++){
                 if(s1.charAt(i-1)==s2.charAt(j-1)){
-                    dp[i][j] = 0+dp[i-1][j-1];
+                    cur[j] = 0+prev[j-1];
                 }
                 else{
-                    dp[i][j] = 1+Math.min(dp[i][j-1],Math.min(dp[i-1][j],dp[i-1][j-1]));    
+                    cur[j] = 1+Math.min(cur[j-1],Math.min(prev[j],prev[j-1]));    
                 }
             }
+            
+            prev = cur;
         }
     
-        return dp[n1][n2];
+        return prev[n2];
     }
     
     
