@@ -10,39 +10,36 @@ class Solution {
     
     
     public int min_steps(int n1,int n2,String s1,String s2){
-        
-      int dp[][] = new int[n1][n2];
-        
-      for(int row[]:dp){
-          Arrays.fill(row,-1);
-      }
-        
-      return solveSteps(n1-1,n2-1,s1,s2,dp);
+       
+      return solveSteps(s1,s2,n1,n2);
         
     }
     
-    public int solveSteps(int i,int j,String s1,String s2,int dp[][]){
+    public int solveSteps(String s1,String s2,int n1,int n2){
+    
+      int dp[][] = new int[n1+1][n2+1];
         
-        if(i<0){
-            return j+1;
-        }
-        if(j<0){
-            return i+1;
-        }
-        
-        if(dp[i][j]!=-1){
-            return dp[i][j];
+     
+        for(int i=0;i<=n1;i++){
+            dp[i][0] = i;
         }
         
-        if(s1.charAt(i)==s2.charAt(j)){
-            dp[i][j] = 0+solveSteps(i-1,j-1,s1,s2,dp);
-        }
-        else{
-           dp[i][j] = 1+Math.min(solveSteps(i,j-1,s1,s2,dp),Math.min(solveSteps(i-1,j,s1,s2,dp),solveSteps(i-1,j-1,s1,s2,dp)));    
+        for(int j=0;j<=n2;j++){
+            dp[0][j] = j;
         }
         
-        return dp[i][j];
-        
+        for(int i=1;i<=n1;i++){
+            for(int j=1;j<=n2;j++){
+                if(s1.charAt(i-1)==s2.charAt(j-1)){
+                    dp[i][j] = 0+dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = 1+Math.min(dp[i][j-1],Math.min(dp[i-1][j],dp[i-1][j-1]));    
+                }
+            }
+        }
+    
+        return dp[n1][n2];
     }
     
     
