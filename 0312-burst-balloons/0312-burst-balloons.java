@@ -2,46 +2,38 @@ class Solution {
     
     public int maxCoins(int[] nums) {
     
-        int len = nums.length;
+        int n = nums.length;
         
-        int arr[] = new int[len+2];
+        int arr[] = new int[n+2];
+        
         arr[0] = 1;
-        for(int i=0;i<len;i++){
+        
+        for(int i=0;i<n;i++){
             arr[i+1] = nums[i];
         }
-        arr[len+1]=1;
+        arr[n+1] = 1;
         
-        int n = arr.length;
+        int dp[][] = new int[n+2][n+2];
         
-        int dp[][] = new int[n][n];
-        
-        for(int r[]: dp){
-            Arrays.fill(r,-1);
+        for(int i=n;i>=1;i--){
+            for(int j=1;j<=n;j++){
+                
+                if(i>j){
+                    continue;
+                }
+                
+                int maxi = Integer.MIN_VALUE;
+                for(int ind=i;ind<=j;ind++){
+                     int points = (arr[i-1]*arr[ind]*arr[j+1])+dp[i][ind-1]+dp[ind+1][j];
+                     maxi = Math.max(maxi,points);
+                }
+             
+                dp[i][j] = maxi;
+            }
         }
         
-        return burst_balloon(1,n-2,arr,dp);
+        return dp[1][n];
         
-    }
-    
-    
-    public int burst_balloon(int i,int j,int arr[],int dp[][]){
-        
-        if(i>j){
-            return 0;
-        }
-        
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        
-        int mini = Integer.MIN_VALUE;
-        
-        for(int ind=i;ind<=j;ind++){
-            int points = (arr[i-1]*arr[ind]*arr[j+1])+burst_balloon(i,ind-1,arr,dp)+burst_balloon(ind+1,j,arr,dp);
-            mini = Math.max(mini,points);
-        }
-        
-        return dp[i][j] = mini;
     }
     
 }
