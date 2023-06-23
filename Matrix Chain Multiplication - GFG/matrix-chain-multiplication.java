@@ -29,37 +29,27 @@ class GFG
 //User function Template for Java
 
 class Solution{
-    
-    static int matrixMultiplication(int N, int arr[]){
-        
+    static int matrixMultiplication(int N, int arr[])
+    {
+       
        int dp[][] = new int[N][N];
        
-       for(int r[]: dp){
-           Arrays.fill(r,-1);
+       for(int i=N-1;i>=1;i--){
+           
+           for(int j=i+1;j<N;j++){
+               
+               int mini = (int)(1e9);
+               
+               for(int k=i;k<j;k++){
+                   int steps = (arr[i-1]*arr[k]*arr[j])+dp[i][k]+dp[k+1][j];
+                   mini = Math.min(mini,steps);
+               }
+               
+               dp[i][j] = mini;
+           }
        }
-        
-       return MCM(1,N-1,arr,dp);
+       
+       return dp[1][N-1];
        
     }
-    
-    static int MCM(int i,int j,int arr[],int dp[][]){
-        
-        if(i==j){
-            return 0;
-        }
-        
-        if(dp[i][j]!=-1){
-            return dp[i][j];
-        }
-        
-        int mini = (int)(1e9);
-        
-        for(int k=i;k<j;k++){
-            int steps = (arr[i-1]*arr[k]*arr[j])+MCM(i,k,arr,dp)+MCM(k+1,j,arr,dp);
-            mini = Math.min(mini,steps);
-        }
-        
-        return dp[i][j] = mini;
-    }
-    
 }
