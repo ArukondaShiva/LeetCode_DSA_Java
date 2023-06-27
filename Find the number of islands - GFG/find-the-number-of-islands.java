@@ -57,7 +57,7 @@ class Solution {
                 
                 if(grid[i][j]=='1' && vis[i][j]==0){
                     islands++;
-                    bfs(i,j,vis,grid);   
+                    dfs(i,j,vis,grid);   
                 }
                 
             }
@@ -66,36 +66,25 @@ class Solution {
         return islands;
     }
     
-    public void bfs(int row,int col,int vis[][],char grid[][]){
+    public void dfs(int row,int col,int vis[][],char grid[][]){
         
-        vis[row][col] = 1;
-        
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(row,col));
-        
-        int n = grid.length;
-        int m = grid[0].length;
-        
-        while(!q.isEmpty()){
-            
-            row = q.peek().row;
-            col = q.peek().col;
-            q.poll();
-            
-            for(int r=-1;r<=1;r++){
-                for(int c=-1;c<=1;c++){
-                    int nrow = row+r;
-                    int ncol = col+c;
-                    
-                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
-                        vis[nrow][ncol] = 1;
-                        bfs(nrow,ncol,vis,grid);
-                    }
-                    
-                }
-            }
-            
-        }
+         vis[row][col] = 1;
+         
+         int n = grid.length;
+         int m = grid[0].length;
+         
+         for(int r=-1;r<=1;r++){
+             for(int c=-1;c<=1;c++){
+                 int nrow = row+r;
+                 int ncol = col+c;
+                 
+                 if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
+                     vis[nrow][ncol] = 1;
+                     dfs(nrow,ncol,vis,grid);
+                 }
+                 
+             }
+         }
         
     }
     
