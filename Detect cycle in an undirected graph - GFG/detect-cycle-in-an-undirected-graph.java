@@ -31,66 +31,43 @@ class GFG {
 }
 // } Driver Code Ends
 
-class Pair{
-    
-    int node;
-    int parent;
-    
-    Pair(int _node,int _parent){
-        node = _node;
-        parent = _parent;
-    }
-}
 
 class Solution {
     // Function to detect cycle in an undirected graph.
     
     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
-        
-        boolean visited[] = new boolean[V];
-        Arrays.fill(visited,false);
-
-        for(int sr=0;sr<V;sr++){
-            if(visited[sr]==false){
-              if(checkForCycle(sr,adj,visited)==true){
-                 return true;
-              }   
-            }
-        }
-        
-        return false;
+         
+         boolean visited[] = new boolean[V];
+         Arrays.fill(visited,false);
+         
+         for(int src=0;src<V;src++){
+             if(visited[src]==false){
+                 if(DFS(src,-1,visited,adj)==true){
+                     return true;
+                 }
+             }
+         }
+         
+         return false;
     }
     
-    public boolean checkForCycle(int src,ArrayList<ArrayList<Integer>> adj,boolean visited[]){
+    public boolean DFS(int node,int parent,boolean visited[],ArrayList<ArrayList<Integer>> adj){
         
-        visited[src] = true;
+        visited[node] = true;
         
-        Queue<Pair> q = new LinkedList<>();
-        
-        q.add(new Pair(src,-1));
-        
-        while(!q.isEmpty()){
-            int size = q.size();
-            for(int i=0;i<size;i++){
-            
-               int node = q.peek().node;
-               int parent = q.peek().parent;
-               q.poll();
-               
-               for(Integer adjNode : adj.get(node)){
-                   if(visited[adjNode]==false){
-                       visited[adjNode]=true;
-                       q.add(new Pair(adjNode,node));
-                   }
-                   else if(visited[adjNode]==true && parent!=adjNode){
-                       return true;
-                   }
-               }
-            
+        for(Integer adjNode : adj.get(node)){
+            if(visited[adjNode]==false){
+                if(DFS(adjNode,node,visited,adj)){
+                    return true;
+                }
+            }
+            else if(visited[adjNode]==true && adjNode!=parent){
+                return true;
             }
         }
-        
-        return false;
+     
+        return false;   
     }
+    
     
 }
