@@ -81,7 +81,7 @@ class Solution {
         int cnt = 0;
         
         for (int i = low; i <= mid; i++) {
-            while (right <= high && (long)arr[i] > (long)(2 * (long)arr[right])){
+            while (right <= high && (long)arr[i] > (2 * (long)arr[right])){
                 right++;
             } 
             cnt += (right - (mid + 1));
