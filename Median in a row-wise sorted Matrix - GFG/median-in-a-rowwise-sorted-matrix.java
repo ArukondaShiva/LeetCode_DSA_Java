@@ -42,14 +42,18 @@ class Solution {
       
       int N = R*C;
       
+      //1 <= matrix[i][j] <= 2000 (given in Question)
       int start = 1;
       int end = 2000;
       
       while(start<=end){
           
           int mid = (start+end)/2;
+          
+          //finding no of elements lesser than mid in matrix.
           int smallerElements = findSmallerElements(matrix,mid);
           
+          //if <=N/2 , median lies in the right half - else left half
           if(smallerElements<=N/2){
               start = mid+1;
           }
