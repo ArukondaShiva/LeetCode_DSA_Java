@@ -4,29 +4,27 @@ class Solution {
     
         int n = nums.length;
         
-        if(nums[0]<=nums[n-1]){
-            return nums[0];
-        }
-        
         int low = 0;
         int high = n-1;
         
-        while(low<high){
+        int min = Integer.MAX_VALUE;
+        
+        while(low<=high){
+            
             int mid = (low+high)/2;
             
-            if(nums[low]<nums[mid]){
-                low = mid;
+            if(nums[low]<=nums[mid]){
+                min = Math.min(min,nums[low]);
+                low = mid+1;
             }
-            else if(nums[low]>nums[mid]){
-                high = mid;
-            }
-            else if(nums[mid]==nums[low]){
-                return nums[high];
+            else{
+                min = Math.min(min,nums[mid]);
+                high = mid-1;
             }
             
         }
         
-        return -1;
+        return min;
     }
     
 }
