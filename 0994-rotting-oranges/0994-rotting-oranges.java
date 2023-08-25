@@ -1,68 +1,89 @@
-class Pair {
+class Pair{
     int row;
     int col;
-
-    Pair(int r, int c) {
-        row = r;
-        col = c;
+    Pair(int _row,int _col){
+        row = _row;
+        col = _col;
     }
 }
 
 class Solution {
-
+    
     public int orangesRotting(int[][] grid) {
-        if (grid == null || grid.length == 0) {
+    
+        if(grid.length==0 || grid==null){
             return 0;
         }
-
-        int rows = grid.length;
-        int cols = grid[0].length;
-
+        
+        int n = grid.length;
+        int m = grid[0].length;
+        
         Queue<Pair> q = new LinkedList<>();
+        
         int totalOranges = 0;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 2) {
-                    q.add(new Pair(i, j));
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==2){
+                    q.add(new Pair(i,j));
                 }
-                if (grid[i][j] != 0) {
+                if(grid[i][j]!=0){
                     totalOranges++;
                 }
             }
         }
-
+        
+        int minutes = 0;
         int count = 0;
-        int countMinutes = 0;
-
-        int delrow[] = { -1, 0, +1, 0 };
-        int delcol[] = { 0, +1, 0, -1 };
-
-        while (!q.isEmpty()) {
+        
+        int delrow[] = {-1,0,+1,0};
+        int delcol[] = {0,+1,0,-1};
+        
+        while(!q.isEmpty()){
+            
             int size = q.size();
-            count = count + size;
-
-            for (int s = 0; s < size; s++) {
-                int row = q.peek().row;
-                int col = q.peek().col;
+            count += size;
+            
+            for(int s=0;s<size;s++){
+                
+                Pair p = q.peek();
                 q.poll();
-
-                for (int i = 0; i < 4; i++) {
-                    int nrow = row + delrow[i];
-                    int ncol = col + delcol[i];
-
-                    if (nrow >= 0 && nrow < rows && ncol >= 0 && ncol < cols && grid[nrow][ncol] == 1) {
+                
+                int row = p.row;
+                int col = p.col;
+                
+                for(int i=0;i<4;i++){
+                    int nrow = row+delrow[i];
+                    int ncol = col+delcol[i];
+                    
+                    if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]==1){
                         grid[nrow][ncol] = 2;
-                        q.add(new Pair(nrow, ncol));
+                        q.add(new Pair(nrow,ncol));
                     }
+                    
                 }
+                
             }
-
-            if (q.size() != 0) {
-                countMinutes++;
+            
+            if(q.size()!=0){
+                minutes++;
             }
+            
         }
-
-        return totalOranges == count ? countMinutes : -1;
+        
+        return count==totalOranges ? minutes : -1;
     }
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
