@@ -31,43 +31,62 @@ class GFG {
 }
 // } Driver Code Ends
 
+class Pair{
+    int node;
+    int parent;
+    Pair(int _node,int _parent){
+        node = _node;
+        parent = _parent;
+    }
+}
 
 class Solution {
-    // Function to detect cycle in an undirected graph.
-    
+     
     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
-         
-         boolean visited[] = new boolean[V];
-         Arrays.fill(visited,false);
-         
-         for(int src=0;src<V;src++){
-             if(visited[src]==false){
-                 if(DFS(src,-1,visited,adj)==true){
-                     return true;
-                 }
-             }
-         }
-         
-         return false;
-    }
-    
-    public boolean DFS(int node,int parent,boolean visited[],ArrayList<ArrayList<Integer>> adj){
         
-        visited[node] = true;
+        int visited[] = new int[V];
+        Arrays.fill(visited,0);
         
-        for(Integer adjNode : adj.get(node)){
-            if(visited[adjNode]==false){
-                if(DFS(adjNode,node,visited,adj)){
+        for(int i=0;i<V;i++){
+            if(visited[i]==0){
+                if(BFS(i,visited,adj)){
                     return true;
                 }
             }
-            else if(visited[adjNode]==true && adjNode!=parent){
-                return true;
-            }
         }
-     
-        return false;   
+        
+        return false;
     }
     
+    public boolean BFS(int src,int visited[],ArrayList<ArrayList<Integer>> adj){
+        
+        visited[src] = 1;
+        
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(src,-1));
+        
+        while(!q.isEmpty()){
+            
+            Pair p = q.peek();
+            q.poll();
+            
+            int node = p.node;
+            int parent = p.parent;
+            
+            for(int adjNode : adj.get(node)){
+                
+                if(visited[adjNode]==1 && adjNode!=parent){
+                    return true;
+                }
+                else if(visited[adjNode]==0){
+                    visited[adjNode] = 1;
+                    q.add(new Pair(adjNode,node));
+                }
+                
+            } 
+            
+        }
+        return false;
+    }
     
 }
