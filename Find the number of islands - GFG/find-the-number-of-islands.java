@@ -26,6 +26,15 @@ class GFG {
 }
 // } Driver Code Ends
 
+class Pair{
+    int row;
+    int col;
+    Pair(int _row,int _col){
+        row = _row;
+        col = _col;
+    }
+}
+
 
 class Solution {
     // Function to find the number of islands.
@@ -58,22 +67,31 @@ class Solution {
     
     public void DFS(int row,int col,char grid[][],int vis[][]){
         
-        vis[row][col] = 1;
-        
-        int n = grid.length;
-        int m = grid[0].length;
-        
-        for(int r=-1;r<=1;r++){
-            for(int c=-1;c<=1;c++){
-                int nrow = row+r;
-                int ncol = col+c;
-                
-                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
-                    DFS(nrow,ncol,grid,vis);
-                }
-                
-            }
-        }
+         Queue<Pair> q = new LinkedList<>();
+         q.add(new Pair(row,col));
+         
+         int n = grid.length;
+         int m = grid[0].length;
+         
+         while(!q.isEmpty()){
+             Pair p = q.peek();
+             q.poll();
+             
+             row = p.row;
+             col = p.col;
+             
+             for(int r=-1;r<=1;r++){
+                 for(int c=-1;c<=1;c++){
+                     int nrow = row+r;
+                     int ncol = col+c;
+                     if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
+                         vis[nrow][ncol] = 1;
+                         q.add(new Pair(nrow,ncol));
+                     }
+                 }
+             }
+             
+         }
         
     }
     
