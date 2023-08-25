@@ -38,23 +38,14 @@ class Solution {
     
     public void BFS(int src,int visited[],ArrayList<Integer> list,ArrayList<ArrayList<Integer>> adjList){
         
-        Queue<Integer> q = new LinkedList<>();
         visited[src] = 1;
-        q.add(src);
         
-        while(!q.isEmpty()){
-            int node = q.poll();
-            list.add(node);
+        for(int adjNode : adjList.get(src)){
             
-            for(int adjNode : adjList.get(node)){
-                
-                if(visited[adjNode]==0){
-                    visited[adjNode] = 1;
-                    q.add(adjNode);
-                }
-                
+            if(visited[adjNode]==0){
+               BFS(adjNode,visited,list,adjList);     
             }
-            
+           
         }
         
     }
