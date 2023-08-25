@@ -49,7 +49,7 @@ class Solution {
         
         for(int i=0;i<V;i++){
             if(visited[i]==0){
-                if(BFS(i,visited,adj)){
+                if(DFS(i,-1,visited,adj)==true){
                     return true;
                 }
             }
@@ -58,35 +58,23 @@ class Solution {
         return false;
     }
     
-    public boolean BFS(int src,int visited[],ArrayList<ArrayList<Integer>> adj){
+    public boolean DFS(int node,int parent,int visited[],ArrayList<ArrayList<Integer>> adj){
         
-        visited[src] = 1;
+        visited[node] = 1;
         
-        Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(src,-1));
-        
-        while(!q.isEmpty()){
+        for(int adjNode : adj.get(node)){
             
-            Pair p = q.peek();
-            q.poll();
-            
-            int node = p.node;
-            int parent = p.parent;
-            
-            for(int adjNode : adj.get(node)){
-                
-                if(visited[adjNode]==1 && adjNode!=parent){
+            if(visited[adjNode]==0){
+                if(DFS(adjNode,node,visited,adj)){
                     return true;
                 }
-                else if(visited[adjNode]==0){
-                    visited[adjNode] = 1;
-                    q.add(new Pair(adjNode,node));
-                }
-                
-            } 
-            
+            }
+            else if(visited[adjNode]==1 && adjNode!=parent){
+                return true;
+            }
         }
-        return false;
+     
+        return false;    
     }
     
 }
