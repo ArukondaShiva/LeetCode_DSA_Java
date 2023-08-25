@@ -26,77 +26,57 @@ class GFG {
 }
 // } Driver Code Ends
 
-class Pair{
-    
-    int row;
-    int col;
-    
-    Pair(int r,int c){
-        row = r;
-        col = c;
-    }
-}
 
 class Solution {
-     
+    // Function to find the number of islands.
+    
     public int numIslands(char[][] grid) {
-        
+    
         int n = grid.length;
         int m = grid[0].length;
         
-        int vis[][] = new int[n][m];
+        int visited[][] = new int[n][m];
         
-        for(int row[]:vis){
-            Arrays.fill(row,0);
+        
+        for(int r[]: visited){
+            Arrays.fill(r,0);
         }
         
         int islands = 0;
-        
+       
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                
-                if(grid[i][j]=='1' && vis[i][j]==0){
-                    islands++;
-                    dfs(i,j,vis,grid);   
-                }
-                
+              if(grid[i][j]=='1' && visited[i][j]==0){
+                  DFS(i,j,grid,visited);
+                  islands++;
+              }
             }
         }
         
         return islands;
     }
     
-    public void dfs(int row,int col,int vis[][],char grid[][]){
+    public void DFS(int row,int col,char grid[][],int vis[][]){
         
-         vis[row][col] = 1;
-         
-         int n = grid.length;
-         int m = grid[0].length;
-         
-         for(int r=-1;r<=1;r++){
-             for(int c=-1;c<=1;c++){
-                 int nrow = row+r;
-                 int ncol = col+c;
-                 
-                 if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
-                     vis[nrow][ncol] = 1;
-                     dfs(nrow,ncol,vis,grid);
-                 }
-                 
-             }
-         }
+        vis[row][col] = 1;
+        
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        for(int r=-1;r<=1;r++){
+            for(int c=-1;c<=1;c++){
+                int nrow = row+r;
+                int ncol = col+c;
+                
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
+                    DFS(nrow,ncol,grid,vis);
+                }
+                
+            }
+        }
         
     }
     
-    
 }
-
-
-
-
-
-
-
-
 
 
