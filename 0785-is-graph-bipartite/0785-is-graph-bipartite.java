@@ -1,43 +1,38 @@
 class Solution {
-
+    
     public boolean isBipartite(int[][] graph) {
+        
         int n = graph.length;
-
         int color[] = new int[n];
-        Arrays.fill(color, -1);
-
-        for (int i = 0; i < n; i++) {
-            if (color[i] == -1) {
-                if (BFS(i, graph, color) == false) {
+        Arrays.fill(color,-1);
+        
+        for(int i=0;i<n;i++){
+            if(color[i]==-1){
+                if(DFS(i,graph,color,0)==false){
                     return false;
                 }
             }
         }
+        
         return true;
     }
-
-    public boolean BFS(int src,int graph[][],int color[]) {
+    
+    public boolean DFS(int src,int graph[][],int color[],int iniColor){
         
-        Queue<Integer> q = new LinkedList<>();
-        q.add(src);
-        color[src] = 0;
+        color[src] = iniColor;
         
-        while(!q.isEmpty()){
-            int node = q.poll();
-            
-            for(int next : graph[node]){
-                if(color[next]==-1){
-                    color[next] = 1-color[node];
-                    q.add(next);
-                }
-                
-                if(color[next]==color[node]){
+        for(int next : graph[src]){
+            if(color[next]==-1){
+                if(DFS(next,graph,color,1-iniColor)==false){
                     return false;
                 }
             }
             
+            if(color[next]==color[src]){
+                return false;
+            }
         }
-        
         return true;
     }
+    
 }
