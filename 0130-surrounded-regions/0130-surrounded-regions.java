@@ -19,22 +19,22 @@ class Solution {
         int visited[][] = new int[r][c];
         
         for(int i=0;i<r;i++){
-            if(board[i][0]=='O' && visited[i][0]==0){
+            if(board[i][0]=='O'){
                 visited[i][0] = 1;
                 q.add(new Pair(i,0));
             }
-            if(board[i][c-1]=='O' && visited[i][c-1]==0){
+            if(board[i][c-1]=='O'){
                 visited[i][c-1] = 1;
                 q.add(new Pair(i,c-1));
             }
         }
         
         for(int j=0;j<c;j++){
-            if(board[0][j]=='O' && visited[0][j]==0){
+            if(board[0][j]=='O'){
                 visited[0][j] = 1;
                 q.add(new Pair(0,j));
             }
-            if(board[r-1][j]=='O' && visited[r-1][j]==0){
+            if(board[r-1][j]=='O'){
                 visited[r-1][j] = 1;
                 q.add(new Pair(r-1,j));
             }
