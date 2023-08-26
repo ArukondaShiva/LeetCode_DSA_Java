@@ -1,12 +1,3 @@
-class Pair{
-    int row;
-    int col;
-    Pair(int _row,int _col){
-        row = _row;
-        col = _col;
-    }
-}
-
 class Solution {
     
     public int numEnclaves(int[][] grid) {
@@ -16,51 +7,27 @@ class Solution {
         
         int visited[][] = new int[r][c];
         
-        Queue<Pair> q = new LinkedList<>();
-        
         for(int i=0;i<r;i++){
-            if(grid[i][0]==1){
+            if(grid[i][0]==1 && visited[i][0]==0){
                 visited[i][0] = 1;
-                q.add(new Pair(i,0));
+                DFS(i,0,grid,visited);
             }
-            if(grid[i][c-1]==1){
+            
+            if(grid[i][c-1]==1 && visited[i][c-1]==0){
                 visited[i][c-1] = 1;
-                q.add(new Pair(i,c-1));
+                DFS(i,c-1,grid,visited);
             }
         }
         
         for(int j=0;j<c;j++){
-            if(grid[0][j]==1){
+            if(grid[0][j]==1 && visited[0][j]==0){
                 visited[0][j] = 1;
-                q.add(new Pair(0,j));
+                DFS(0,j,grid,visited);
             }
-            if(grid[r-1][j]==1){
+            if(grid[r-1][j]==1 && visited[r-1][j]==0){
                 visited[r-1][j] = 1;
-                q.add(new Pair(r-1,j));
+                DFS(r-1,j,grid,visited);
             }
-        }
-        
-        int delrow[] = {-1,0,+1,0};
-        int delcol[] = {0,+1,0,-1};
-        
-        while(!q.isEmpty()){
-            
-            Pair p = q.peek();
-            q.poll();
-            
-            int row = p.row;
-            int col = p.col;
-            
-            for(int i=0;i<4;i++){
-                int nrow = row+delrow[i];
-                int ncol = col+delcol[i];
-                
-                if(nrow>=0 && nrow<r && ncol>=0 && ncol<c && grid[nrow][ncol]==1 && visited[nrow][ncol]==0){
-                    visited[nrow][ncol] = 1;
-                    q.add(new Pair(nrow,ncol));
-                }
-            }
-            
         }
         
         int enclaves = 0;
@@ -75,5 +42,27 @@ class Solution {
         
         return enclaves;
     }
+    
+    public void DFS(int row,int col,int grid[][],int visited[][]){
+        
+        int delrow[] = {-1,0,+1,0};
+        int delcol[] = {0,+1,0,-1};
+        
+        int r = grid.length;
+        int c = grid[0].length;
+        
+        for(int i=0;i<4;i++){
+            int nrow = row+delrow[i];
+            int ncol = col+delcol[i];
+            
+            if(nrow>=0 && nrow<r && ncol>=0 && ncol<c && grid[nrow][ncol]==1 && visited[nrow][ncol]==0){
+                visited[nrow][ncol] = 1;
+                DFS(nrow,ncol,grid,visited);
+            }
+            
+        }
+        
+    }
+    
     
 }
