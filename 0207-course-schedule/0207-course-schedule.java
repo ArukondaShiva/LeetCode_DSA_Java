@@ -9,7 +9,7 @@ class Solution {
         }
         
         for(int r[] : prerequisites){
-            adj.get(r[0]).add(r[1]);
+            adj.get(r[1]).add(r[0]);
         }
         
         int indegree[] = new int[numCourses];
