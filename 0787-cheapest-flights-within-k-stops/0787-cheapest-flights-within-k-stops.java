@@ -54,10 +54,6 @@ class Solution {
             int cost = t.cost;
             int node = t.node;
             
-            if(stops>k+1){
-                continue;
-            }
-            
             for(Pair it : adj.get(node)){
                 int adjNode = it.first;
                 int adjCost = it.second;
