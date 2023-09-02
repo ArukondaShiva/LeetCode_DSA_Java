@@ -53,7 +53,7 @@ class Solution {
             int stops = t.stops;
             int cost = t.cost;
             int node = t.node;
-            
+        
             for(Pair it : adj.get(node)){
                 int adjNode = it.first;
                 int adjCost = it.second;
@@ -68,10 +68,10 @@ class Solution {
             
         }
         
-        if(dist[dst]==(int)(1e9)){
-            return -1;
-        }
-        
-        return dist[dst];
+       if(dist[dst]==(int)(1e9)){
+           return -1;
+       }
+         
+       return dist[dst];
     }
 }
