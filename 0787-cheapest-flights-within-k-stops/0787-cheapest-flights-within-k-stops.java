@@ -59,8 +59,8 @@ class Solution {
                 int adjCost = it.second;
                 
                 if(cost+adjCost < dist[adjNode]){
-                    dist[adjNode] = cost+adjCost;
-                    if(stops+1<=k){
+                    if(stops+1<=k+1){
+                        dist[adjNode] = cost+adjCost;
                         pq.add(new tuple(stops+1,adjNode,cost+adjCost));   
                     }
                 }
