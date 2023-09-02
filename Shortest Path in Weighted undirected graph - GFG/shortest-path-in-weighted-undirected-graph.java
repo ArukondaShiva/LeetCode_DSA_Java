@@ -30,6 +30,7 @@ import java.io.*;
 
 
 // User function Template for Java
+
 class Pair{
     int first;
     int second;
@@ -42,72 +43,75 @@ class Pair{
 class Solution {
     
     public static List<Integer> shortestPath(int n, int m, int edges[][]) {
-         
-         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
-         
-         for(int i=0;i<n+1;i++){
-             adj.add(new ArrayList<Pair>());
-         }
-         
-         for(int r[] : edges){
-             adj.get(r[0]).add(new Pair(r[1],r[2]));
-             adj.get(r[1]).add(new Pair(r[0],r[2]));
-         }
-         
-         PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.first-b.first);
-         pq.add(new Pair(0,1));
-         
-         int dist[] = new int[n+1];
-         int parent[] = new int[n+1];
+       
+       ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+       
+       for(int i=0;i<n+1;i++){
+           adj.add(new ArrayList<Pair>());
+       }
+       
+       for(int r[] : edges){
+           adj.get(r[0]).add(new Pair(r[1],r[2]));
+           adj.get(r[1]).add(new Pair(r[0],r[2]));
+       }
           
-         for(int i=0;i<n+1;i++){
-             dist[i] = (int)(1e9);
-             parent[i] = i;
-         }
-         
-         dist[1] = 0;
-         
-         while(!pq.isEmpty()){
-             
-             Pair p = pq.peek();
-             pq.remove();
-             
-             int node = p.second;
-             int distance = p.first;
-             
-             for(Pair it : adj.get(node)){
-                 int adjNode = it.first;
-                 int edgeWeight = it.second;
-                 
-                 if(distance+edgeWeight <dist[adjNode]){
-                     dist[adjNode] = distance+edgeWeight;
-                     pq.add(new Pair(dist[adjNode],adjNode));
-                     parent[adjNode] = node;
-                 }
-             }
-             
-         }
-         
-         List<Integer> path = new ArrayList<>();
-         
-         if(dist[n]==(int)(1e9)){
-             path.add(-1);
-             return path;
-         }
-         
-         int node = n;
-         path.add(node);
-         
-         while(parent[node]!=node){
-             path.add(parent[node]);
-             node = parent[node];
-         }
-         
-         Collections.reverse(path);
-         return path;
+       PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)->a.first-b.first);
+       
+       int dist[] = new int[n+1];
+       int parent[] = new int[n+1];
+       
+       for(int i=0;i<=n;i++){
+           parent[i] = i;
+           dist[i] = (int)(1e9);
+       }
+       
+       dist[1] = 0;
+       pq.add(new Pair(0,1));
+       
+       while(!pq.isEmpty()){
+           
+           Pair p = pq.peek();
+           pq.remove();
+           
+           int node = p.second;
+           int distance = p.first;
+           
+           for(Pair it : adj.get(node)){
+               
+               int adjNode = it.first;
+               int edgeWeight = it.second;
+               
+               if(distance+edgeWeight <dist[adjNode]){
+                   dist[adjNode] = distance+edgeWeight;
+                   parent[adjNode] = node;
+                   pq.add(new Pair(dist[adjNode],adjNode));
+               }
+               
+           }
+       }
+       
+       List<Integer> path = new ArrayList<>();
+       
+       if(dist[n]==(int)(1e9)){
+           path.add(-1);
+           return path;
+       }
+       
+       int node = n;
+       path.add(node);
+       
+       while(parent[node]!=node){
+           path.add(parent[node]);
+           node = parent[node];
+       }
+    
+       Collections.reverse(path);
+       
+       return path;
     }
     
 }
+
 
 
 
