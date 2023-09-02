@@ -42,19 +42,19 @@ class Solution {
         
         dist[src] = 0;
         
-        Queue<tuple> q = new LinkedList<>();
-        q.add(new tuple(0,src,0));
+        PriorityQueue<tuple> pq = new PriorityQueue<>((a,b)->a.stops-b.stops);
+        pq.add(new tuple(0,src,0));
         
-        while(!q.isEmpty()){
+        while(!pq.isEmpty()){
             
-            tuple t = q.peek();
-            q.remove();
+            tuple t = pq.peek();
+            pq.remove();
             
             int stops = t.stops;
             int cost = t.cost;
             int node = t.node;
             
-            if(stops>k){
+            if(stops>k+1){
                 continue;
             }
             
@@ -64,7 +64,9 @@ class Solution {
                 
                 if(cost+adjCost < dist[adjNode]){
                     dist[adjNode] = cost+adjCost;
-                    q.add(new tuple(stops+1,adjNode,cost+adjCost));
+                    if(stops+1<=k){
+                        pq.add(new tuple(stops+1,adjNode,cost+adjCost));   
+                    }
                 }
             }
             
