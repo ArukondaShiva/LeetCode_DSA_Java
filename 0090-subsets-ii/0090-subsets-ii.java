@@ -4,24 +4,30 @@ class Solution {
         
         Arrays.sort(nums);
     
-        Set<List<Integer>> set = new HashSet<>();
+        List<List<Integer>> finalList = new ArrayList<>();
+        List<Integer> ds = new ArrayList<>();
         int n = nums.length;
         
-        for(int num=0;num<=Math.pow(2,n)-1;num++){
+        generateSubsets(0,nums,ds,finalList,n);
+        return finalList;
+    }
+    
+    
+    public void generateSubsets(int ind,int nums[],List<Integer> ds,List<List<Integer>> finalList,int n){
+        
+        finalList.add(new ArrayList<Integer>(ds));
+        
+        for(int i=ind;i<n;i++){
             
-            List<Integer> subList = new ArrayList<>();
-            
-            for(int i=0;i<n;i++){
-                if((num & (1<<i)) !=0){
-                    subList.add(nums[i]);
-                }
+            if(i>ind && nums[i]==nums[i-1]){
+                continue;
             }
             
-            set.add(subList);
+            ds.add(nums[i]);
+            generateSubsets(i+1,nums,ds,finalList,n);
+            ds.remove(ds.size()-1);
         }
         
-        List<List<Integer>> ans = new ArrayList<>(set);
-        return ans;
     }
     
 }
