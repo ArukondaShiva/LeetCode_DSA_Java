@@ -4,6 +4,9 @@ class Solution {
     
         List<List<String>> result = new ArrayList<>();
         char board[][] = new char[n][n];
+        int leftRow[] = new int[n];
+        int lowerDiagonal[] = new int[2*n-1];
+        int upperDiagonal[] = new int[2*n-1];
         
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
@@ -11,11 +14,11 @@ class Solution {
             }
         }
         
-        dfs(0,board,result);
+        dfs(0,board,result,leftRow,lowerDiagonal,upperDiagonal,n);
         return result;
     }
     
-    public void dfs(int col,char board[][], List<List<String>> result){
+    public void dfs(int col,char board[][], List<List<String>> result, int leftRow[],int lowerDiagonal[],int upperDiagonal[],int n){
         
         if(col==board[0].length){
             result.add(construct(board));
@@ -24,55 +27,22 @@ class Solution {
         
         
         for(int row=0;row<board.length;row++){
-            if(isValidate(row,col,board)){
+            if(leftRow[row]==0 && lowerDiagonal[row+col]==0 && upperDiagonal[(n-1)+(col-row)]==0){
+                leftRow[row] = 1;
+                lowerDiagonal[row+col] = 1;
+                upperDiagonal[(n-1)+(col-row)] = 1;
                 board[row][col] = 'Q';
-                dfs(col+1,board,result);
+                dfs(col+1,board,result,leftRow,lowerDiagonal,upperDiagonal,n);
                 board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row+col] = 0;
+                upperDiagonal[(n-1)+(col-row)] = 0;
             }
         }
         
     }
     
-    public boolean isValidate(int row,int col,char board[][]){
-       
-        int n = board.length;
-        
-        // column check
-        int duprow = row;
-        int dupcol = col;
-        
-        while(dupcol>=0){
-            if(board[duprow][dupcol]=='Q'){
-                return false;
-            }
-            dupcol--;
-        }
-        
-        // diagonal check
-        duprow = row;
-        dupcol = col;
-        
-        while(duprow>=0 && dupcol>=0){
-            if(board[duprow][dupcol]=='Q'){
-                return false;
-            }
-            duprow--;
-            dupcol--;
-        }
-        
-        duprow = row;
-        dupcol = col;
-        
-        while(duprow<n && dupcol>=0){
-            if(board[duprow][dupcol]=='Q'){
-                return false;
-            }
-            duprow++;
-            dupcol--;
-        }
     
-       return true;
-    }
     
     public List<String> construct(char board[][]){
         
