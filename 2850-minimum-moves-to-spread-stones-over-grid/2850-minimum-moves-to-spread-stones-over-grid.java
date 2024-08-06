@@ -1,4 +1,5 @@
 class Pair{
+    
     private int X;
     private int Y;
     
@@ -23,11 +24,11 @@ class Solution {
         
         List<Pair> zerosList = new ArrayList<>();
         List<Pair> extrasList = new ArrayList<>();
-        
         int n = grid.length;
         
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
+                
                 if(grid[i][j]==0){
                     zerosList.add(new Pair(i,j));
                 }
@@ -38,38 +39,35 @@ class Solution {
             }
         }
         
-        if(zerosList.size()==0){
-            return 0;
-        }
-        
-       return dfs(0,zerosList, extrasList, grid);
+        return dfs(0,zerosList,extrasList,grid);
     }
     
-    public int dfs(int ind,List<Pair> zerosList, List<Pair> extrasList, int grid[][]){
+    public int dfs(int ind,List<Pair> zerosList, List<Pair> extrasList,int grid[][]){
         
         if(ind==zerosList.size()){
             return 0;
         }
         
-        int curZeroX = zerosList.get(ind).getX();
-        int curZeroY = zerosList.get(ind).getY();
+        int zeroX = zerosList.get(ind).getX();
+        int zeroY = zerosList.get(ind).getY();
         
         int ans = 100000;
         
         for(int i=0;i<extrasList.size();i++){
             
-            int curExtraX = extrasList.get(i).getX();
-            int curExtraY = extrasList.get(i).getY();
+            int extraX = extrasList.get(i).getX();
+            int extraY = extrasList.get(i).getY();
             
-            if(grid[curExtraX][curExtraY]>1){
+            if(grid[extraX][extraY]>1){
+                
+               grid[zeroX][zeroY] = 1;
+               grid[extraX][extraY]--;
             
-              grid[curZeroX][curZeroY] = 1;
-              grid[curExtraX][curExtraY]--;
-            
-              ans = Math.min(ans,((Math.abs(curZeroX-curExtraX)+Math.abs(curZeroY-curExtraY)))+dfs(ind+1,zerosList,extrasList,grid));
-            
-              grid[curZeroX][curZeroY] = 0;
-              grid[curExtraX][curExtraY]++;  
+               ans = Math.min(ans,Math.abs(zeroX-extraX)+Math.abs(zeroY-extraY)+dfs(ind+1,zerosList,extrasList,grid));
+                
+               grid[zeroX][zeroY] = 0;
+               grid[extraX][extraY]++;
+                
             }
             
         }
