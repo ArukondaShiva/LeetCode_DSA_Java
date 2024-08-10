@@ -8,22 +8,22 @@ class Solution {
         int left = 0;
         int right = n-1;
         int sum = 0;
-        int count = 0;
+        int boats = 0;
         
         while(left<=right){
             
             if(people[left]+people[right] <= limit){
                 left++;
                 right--;
-                count++;
+                boats++;
             }else {
                 // people[right] <= limit
-                count++;
+                boats++;
                 right--;
             }   
         }
         
-        return count;
+        return boats;
     }
     
 }
