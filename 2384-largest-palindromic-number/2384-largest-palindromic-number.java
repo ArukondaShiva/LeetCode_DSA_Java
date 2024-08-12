@@ -2,8 +2,6 @@ class Solution {
     
     public String largestPalindromic(String num) {
         
-        System.out.println(num.length());
-        
         Map<Character,Integer> map = new HashMap<>();
         int n = num.length();
         
