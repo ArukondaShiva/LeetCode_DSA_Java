@@ -12,28 +12,19 @@ class Solution {
     public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
         
         int n = capital.length;
-        
-        List<Pair> projects = new ArrayList<>();
+        PriorityQueue<Pair> minCapitalHeap = new PriorityQueue<>((a,b)->a.cap-b.cap);
+        PriorityQueue<Integer> maxProfitHeap = new PriorityQueue<>((a,b)->b-a);
         
         for(int i=0;i<n;i++){
-            projects.add(new Pair(capital[i],profits[i]));
+            minCapitalHeap.add(new Pair(capital[i],profits[i]));
         }
         
-        Collections.sort(projects,(a,b)->a.cap-b.cap);
-        
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->b-a);
-        
-        int i = 0;
-        
         while(k-->0){
-        
-            while(i<n && projects.get(i).cap<=w){
-                pq.add(projects.get(i).pro);
-                i++;
+            while(!minCapitalHeap.isEmpty() && minCapitalHeap.peek().cap<=w){
+                maxProfitHeap.add(minCapitalHeap.poll().pro);
             }
-            
-            if(!pq.isEmpty()){
-               w += pq.poll();
+            if(!maxProfitHeap.isEmpty()){
+                w += maxProfitHeap.poll();
             }
         }
         
