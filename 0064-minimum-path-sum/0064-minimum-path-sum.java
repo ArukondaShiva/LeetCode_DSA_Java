@@ -5,20 +5,22 @@ class Solution {
         int n = grid.length;
         int m = grid[0].length;
         
-        int dp[][] = new int[n][m];
+        int prev[] = new int[m];
         
         for(int i=0;i<n;i++){
+            
+            int temp[] = new int[m];
             
             for(int j=0;j<m;j++){
                 
                 if(i==0 && j==0){
-                    dp[i][j] = grid[i][j];
+                    temp[j] = grid[i][j];
                 }else{
                     
                     int up = grid[i][j];
                     
                     if(i>0){
-                        up += dp[i-1][j];
+                        up += prev[j];
                     }else{
                         up += (int)(1e9);
                     }
@@ -26,19 +28,20 @@ class Solution {
                     int left = grid[i][j];
                     
                     if(j>0){
-                        left += dp[i][j-1];
+                        left += temp[j-1];
                     }else{
                         left += (int)(1e9);
                     }
                     
-                    dp[i][j] = Math.min(up,left);
+                    temp[j] = Math.min(up,left);
                 }
                 
             }
             
+            prev = temp;
         }
         
-        return dp[n-1][m-1];
+        return prev[m-1];
     }
     
 
