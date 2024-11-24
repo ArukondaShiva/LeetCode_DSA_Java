@@ -2,40 +2,35 @@ class Solution {
     
     public int maxProfit(int[] prices) {
     
-        int n = prices.length;
-        int cap = 2;
-        int buy = 0;
-        int dp[][][] = new int[n][2][3];
-        for(int r1[][] : dp){
-            for(int r2[] : r1){
-                Arrays.fill(r2,-1);
+        int n = prices.length; 
+        
+        int dp[][][] = new int[n+1][2][3];
+        
+        dp[n][0][0] = dp[n][0][1] = dp[n][0][2] = 0;
+        dp[n][1][0] = dp[n][1][1] = dp[n][1][2] = 0;
+        
+        for(int ind=n-1;ind>=0;ind--){
+            for(int buy=0;buy<=1;buy++){
+                for(int cap=1;cap<=2;cap++){
+                    
+                    int op1;
+                    int op2;
+                    
+                    if(buy==0){
+                        op1 = dp[ind+1][buy][cap];
+                        op2 = -prices[ind] + dp[ind+1][1][cap];
+                    }else{
+                        op1 = dp[ind+1][buy][cap];
+                        op2 = prices[ind] + dp[ind+1][0][cap-1];
+                    }
+                    
+                    dp[ind][buy][cap] = Math.max(op1,op2);
+                }
             }
         }
-        return findMaxProfit(0,buy,cap,prices,n,dp);
+        
+        return dp[0][0][2];
     }
     
-    public int findMaxProfit(int ind,int buy,int cap,int prices[],int n,int dp[][][]){
-        
-        if(ind==n || cap==0){
-            return 0;
-        }
-        
-        if(dp[ind][buy][cap]!=-1){
-            return dp[ind][buy][cap]; 
-        }
-        
-        int op1;
-        int op2;
-        
-        if(buy==0){
-            op1 = findMaxProfit(ind+1,buy,cap,prices,n,dp);
-            op2 = -prices[ind] + findMaxProfit(ind+1,1-buy,cap,prices,n,dp);
-        }else{
-            op1 = findMaxProfit(ind+1,buy,cap,prices,n,dp);
-            op2 = prices[ind] + findMaxProfit(ind+1,1-buy,cap-1,prices,n,dp);
-        }
-        
-        return dp[ind][buy][cap] = Math.max(op1,op2);
-    }
-    
+   
 }
